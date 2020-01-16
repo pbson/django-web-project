@@ -1,0 +1,42 @@
+<!-- Start: Navigation with Button -->
+<div>
+    <nav class="navbar navbar-light navbar-expand-md sticky-top bg-dark navigation-clean-button"
+        style="color: rgb(255,255,255);background-color: rgb(0,0,0);">
+        <div class="container-fluid"><a class="navbar-brand" href="/">Project 1</a><button class="navbar-toggler"
+                data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link"
+                            href='/category/drinks'>Drinks</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link"
+                            href='/category/clothes'>Clothes</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link"
+                            href=/category/accesories>Accessories</a></li>
+                </ul><span class="navbar-text actions">
+                    {% if not user.is_authenticated %}
+                    <a href="/accounts/login?next={{request.path}}" class="btn btn-light action-button" style="color: rgb(255,255,255);">Log
+                        in</a>
+                    <a class="btn btn-light action-button" role="button" href="accounts/register">Register</a>
+                    {% else %}
+                    <a class="mr-4" href="/order-summary"><i style="font-size:35px; color:#56c6c6;" class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    <a class="btn btn-light action-button " style="color: rgb(255,255,255);">{{ user.first_name }}</a>
+                    <a class="btn btn-light action-button" role="button" href="/accounts/logout?next={{request.path}}">Sign out</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </nav>
+</div>
+
+{% if messages %}
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+
+{% endif %}
+
+<!-- End: Navigation with Button -->

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a><span>Home</span></a></li>
+        <li class="breadcrumb-item"><a><span>{{category.name}}</span></a></li>
+    </ol>
+    
+    <!-- Start: Filter --><div class="filter">
+</div>
+    <!-- End: Filter -->
+    <!-- Start: Article List -->
+    <div class="article-list">
+        <div class="container">
+            <!-- Start: Articles -->
+            <div class="intro">
+                <h2 class="text-center">{{category.name}}</h2>
+                <p class="text-center">Here are some of the {{category.name}} products. Enjoy shopping </p>
+            </div>
+            <div class="row articles">
+                {% for product in products %}
+                    {% if product.categories.name == category.name %}
+                    <div class="col-sm-6 col-md-4 item"><a href={{ product.get_absolute_url }}><img class="img-fluid" src={{ product.image.url }}></a>
+                        <h3 class="name">{{product.name}}</h3>
+                        <p class="description">{{product.description}}</p>
+                        <h4>{{product.price}}$</h4><a href={{ product.get_absolute_url }} class="action"><i class="fa fa-arrow-circle-right d-xl-flex" style="color: rgb(86,198,198);font-size: 36px;"></i></a></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <!-- End: Articles -->
+        </div>
+    </div>
+    <!-- End: Article List -->
+
+    <br>
+{% endblock %}

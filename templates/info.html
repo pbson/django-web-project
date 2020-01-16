@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+    <div>
+    <div class="container" style="margin-bottom: 74px;">
+        <h3 style="margin-top: 24px;margin-bottom: 52px;">ORDER NUMBER: 12</h3>
+        <div class="table-responsive" style="margin-top: 34px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order_product in object.products.all %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order_product.product.name }}</td>
+                        <td>{{ order_product.product.price }}</td>
+                        <td>
+                            {{ order_product.quantity }}
+                           </td>
+                        <td>
+                            ${{ order_product.get_total_product_price }}
+                          
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan='5'>Your cart is empty</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><strong>SUBTOTAL</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>${{object.get_total}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Shipping information</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username: {{object.user.username}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Email: {{object.user.email}}</td>
+                    </tr>
+                    <tr>
+                        <td>Address: {{object.shipping_address.street_address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <button  style="background-color: rgb(86,198,198);" class="btn btn-primary btn-lg border rounded btn-block" type="submit">Ordered</button>
+        </form>
+    </div>
+{%endblock%}

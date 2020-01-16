@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static%}
+
+{% block content %}
+<br>
+<br>
+<div class="container" style="margin-bottom: 74px;">
+    <h2 style="margin-top: 23px;">SHOPPING CART</h2>
+    <div class="table-responsive" style="margin-top: 34px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_product in object.products.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ order_product.product.name }}</td>
+                    <td>{{ order_product.product.price }}</td>
+                    <td><a href="{% url 'homepage:remove-single-product-from-cart' order_product.product.slug %}"><i
+                                style='color:#56c6c6' class="fas fa-minus mr-2"></i></a>
+                        {{ order_product.quantity }}
+                        <a href="{% url 'homepage:add-to-cart' order_product.product.slug %}"><i style='color:#56c6c6'
+                                class="fas fa-plus ml-2"></i></a></td>
+                    <td>
+                        ${{ order_product.get_total_product_price }}
+                        <a style='color: rgb(201, 62, 62);'
+                            href="{% url 'homepage:remove-from-cart' order_product.product.slug %}">
+                            <i class="fas fa-trash float-right"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan='5'>Your cart is empty</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td><strong>SUBTOTAL</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${{object.get_total}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <a class="float-right" href="#">
+        {% if object.products.all|length > 0 %}
+        <a class="btn btn-primary btn-lg float-right d-xl-flex" role="button" href="/checkout"
+            style="background-color: rgb(86,198,198);">
+            <strong>Check out</strong></a>
+        {% endif %}
+        <a class="btn btn-primary btn-lg float-right d-xl-flex mr-3" role="button" href="/"
+            style="background-color: rgb(86,198,198);">
+            <strong>Continue shopping
+            </strong>
+        </a>
+    </a>
+    </a>
+</div>
+{% endblock %}

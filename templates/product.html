@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static%}
+
+{% block content %}
+<br>
+<br>
+    <section style="margin-top: 35px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 d-xl-flex flex-shrink-1"><img class="img-fluid img__product-page" src={{product.image.url}} width="100%" height="100%"></div>
+                <div class="col">
+                    <div class="d-flex flex-column align-items-xl-start">
+                        <h2>{{product.name}}</h2>
+                        <br>
+                        {% if p.sale_price %}
+                            Old price: <del><h3>{{ product.old_price }}</h3> VND</del>
+                            <br />
+                            New price: <h3>{{ product.price }}</h3> VND
+                            {% else %}
+                           <h3> Price: {{ product.price }} VND</h3>
+                        {% endif %} 
+                        Brand: {{product.brand}}
+                    </div>
+                    <div style="margin-top: 15px;margin-bottom: 24px;">
+                        <p>Product description</p>
+                        <hr>
+                        <p>{{product.description}}<br></p>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div><a href="{{object.get_add_to_cart_url}}"><button class="btn btn-primary" type="button" style="background-color: rgb(86,198,198);"><strong>Add to cart</strong></button></a></div>
+                    <br>
+                    <div><a href="{{object.get_remove_from_cart_url}}"><button class="btn btn-danger" type="button" ><strong>Delete</strong></button></a></div>
+                    {% else %}
+                    <div><a href="/accounts/login?next={{request.path}}"><button class="btn btn-primary" type="button" style="background-color: rgb(86,198,198);"><strong>Sign in to add this product to cart</strong></button></a></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <!-- Start: Article List -->
+    <div class="article-list">
+        <div class="container">
+            <!-- Start: Intro -->
+            <div class="intro">
+                <h2 class="text-center">Featured products</h2>
+            </div>
+            <!-- End: Intro -->
+            <!-- Start: Articles -->
+            <div class="row articles">
+                {% for product in product_list %}
+                {% if forloop.counter <= 3 %}
+                {% if product.is_featured == True %}
+                <div class="col-sm-6 col-md-4 item">
+                    <a href={{ product.get_absolute_url }}><img class="img-fluid"
+                            src={{ product.image.url }}></a>
+                    <h3 class="name">{{ product.product_name }}</h3>
+                    <p class="description">{{ product.Category }}</p>
+                    <h4>{{ product.price }} VND</h4><a href={{ product.get_absolute_url }} class="action"><i class="fa fa-arrow-circle-right d-xl-flex"
+                            style="color: rgb(86,198,198);font-size: 36px;"></i></a>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            <!-- End: Articles -->
+        </div>
+    </div>
+    <!-- End: Article List -->
+{% endblock %}
